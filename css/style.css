@@ -1,0 +1,38 @@
+*,*::before,*::after{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.background-img{
+    background: url(/imgs/background.jpg) no-repeat center center/cover;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.startTitle{
+    background: url(/imgs/logo.png);
+}
+
+.btn{
+    margin-top: 20px;
+    border: none;
+    color: white;
+    background-color: teal;
+    padding: 5px 20px;
+    cursor: pointer;
+}
+
+.btn:hover{
+    opacity: 0.9;
+}
+
+.box{
+    width: 30px;
+    height: 30px;
+    background: url(/imgs/full-land.png)no-repeat center center/contain;
+}
