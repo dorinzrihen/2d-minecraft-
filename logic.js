@@ -25,5 +25,38 @@ function main(){
     })
 }
 
-main();
+//main();
+
+const divContainer = document.querySelector('.game-container');
+function setGameBackground(){
+    const gameMatrix = [];
+    
+    for(i = 0;i<18;i++){
+        gameMatrix[i] = [];
+        for(j=0; j<20; j++){
+            const addDiv = document.createElement('div');
+            addDiv.classList.add("box");
+            addDiv.classList.add("box-sky")
+            divContainer.appendChild(addDiv);
+        }
+    }
+    return gameMatrix;
+}
+
+function setFloor(matrix){
+    for(i = matrix.length ; i>=matrix.length-4; i-- ){
+        for(j=0; j<20; j++){
+            const addDiv = divContainer.querySelector('div');
+            addDiv.classList.remove("box-sky")
+            addDiv.classList.add("box-floor");
+            divContainer.appendChild(addDiv);
+        }
+    }
+}
+
+
+let gameMatrix = setGameBackground();
+console.log(gameMatrix.length);
+setFloor(gameMatrix);
+
 

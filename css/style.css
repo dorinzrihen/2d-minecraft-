@@ -3,6 +3,14 @@
     margin: 0;
     padding: 0;
 }
+body{
+    position: relative;
+}
+
+div{
+    line-height: 0;
+}
+
 
 .background-img{
     background: url(/imgs/background.jpg) no-repeat center center/cover;
@@ -12,6 +20,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .startTitle{
@@ -31,8 +43,56 @@
     opacity: 0.9;
 }
 
+
+
 .box{
-    width: 30px;
-    height: 30px;
-    background: url(/imgs/full-land.png)no-repeat center center/contain;
+    width: 2vw;
+    height: 5vh;
+    display: inline-block;
+    
 }
+
+.box-sky{
+    background-color:lightblue;
+}
+
+.box-floor{
+    background: url(/imgs/full-land.png)no-repeat center center/cover;
+}
+
+.box:hover{
+    border: 1px dotted black;
+}
+
+/* main */
+main{
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    height: 100vh;
+}
+.game{
+    background-color: tomato;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container{
+    height: 90vh;
+    width: 40vw;
+    background-color: white;
+}
+
+.weapon-option{
+    background-color: rgb(26, 26, 26);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.weapon-container{
+    border: white 2px solid;
+    width: 100px;
+    height: 100px;
+}
+
