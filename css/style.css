@@ -100,16 +100,27 @@ main{
     background-color: white;
 }
 
-.weapon-option{
+.weapon-options{
     background-color: rgb(26, 26, 26);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.weapon-container{
+.weapon-border{
+    margin: 5px;
     border: white 2px solid;
     width: 100px;
     height: 100px;
+}
+
+.weapon-border:hover,
+.weapon-border:active{
+    background-color: tomato;
+}
+
+.tool-pic{
+    width: 90%;
 }
 
