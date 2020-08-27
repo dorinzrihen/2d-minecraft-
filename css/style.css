@@ -43,23 +43,36 @@ div{
     opacity: 0.9;
 }
 
-
+/* box img */
 
 .box{
     width: 2vw;
     height: 5vh;
     display: inline-block;
-    
 }
 
 .box-sky{
     background-color:lightblue;
 }
 
+
 .box-floor{
     background: url(/imgs/full-land.png)no-repeat center center/cover;
 }
 
+.box-half-floor{
+    background: url(/imgs/half-land.png)no-repeat center center/cover;
+}
+
+.box-grass{
+    background: url(/imgs/tree.png)no-repeat center center/cover;
+}
+.box-tree{
+    background: url(/imgs/tree-1.png)no-repeat center center/cover;
+}
+.box-rock{
+    background: url(/imgs/rock.png)no-repeat center center/cover;
+}
 .box:hover{
     border: 1px dotted black;
 }
