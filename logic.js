@@ -170,13 +170,19 @@ createTool('pickaxe','pickaxe.png');
 createTool('shovel','shovel.png');
 //add event listeners
 
+function pickTool(element){
+    const toolEvent = document.querySelectorAll('.weapon-border');
+    for(i=0; i<toolEvent.length;i++){
+        toolEvent[i].classList.remove('current-tool');
+    }
+    element.currentTarget.classList.add('current-tool');
+    currentTool=element;
+}
+
 
 const toolEvent = document.querySelectorAll('.weapon-border');
 for(i=0; i<toolEvent.length;i++){
-    toolEvent[i].addEventListener('click',function(element){
-        currentTool=element;
-        console.log(currentTool)
-    });
+    toolEvent[i].addEventListener('click',pickTool);
 }
 
 

@@ -116,7 +116,8 @@ main{
 }
 
 .weapon-border:hover,
-.weapon-border:active{
+.weapon-border:active,
+.current-tool{
     background-color: tomato;
 }
 
