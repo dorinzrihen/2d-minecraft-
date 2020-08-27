@@ -73,6 +73,10 @@ div{
 .box-rock{
     background: url(/imgs/rock.png)no-repeat center center/cover;
 }
+
+.box-cloud{
+    background-color: white;
+}
 .box:hover{
     border: 1px dotted black;
 }

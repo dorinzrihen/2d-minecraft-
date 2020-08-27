@@ -30,12 +30,19 @@ function main(){
 const divContainer = document.querySelector('.game-container');
 const gameObject = new Map();
 
+//future option - random 
+const gameWidth = 40;
+const gameHight = 90;
+
+const calcCol = gameHight/5;
+const calcRow = gameWidth/2;
 
 function setGameBackground(){
+    //every div is 2vw 5vh.
     const gameMatrix = [];
-    for(i = 0;i<18;i++){
+    for(i = 0;i<calcCol;i++){
         gameMatrix[i] = [];
-        for(j=0; j<20; j++){
+        for(j=0; j<calcRow; j++){
             const addDiv = document.createElement('div');
             addDiv.classList.add("box");
             addDiv.classList.add("box-sky");
@@ -45,17 +52,39 @@ function setGameBackground(){
     }
 }
 
+function setCloud(){
+    let cloudStartCol = Math.floor(Math.random() * 10)+1; 
+    let cloudStartRow = Math.floor(Math.random() * 10)+1; 
+    const cloud = [[0,0,1,1,0,0],
+                [1,1,1,1,1,1],
+                [0,0,0,1,1,1],
+                [0,0,0,0,0,0]]
+    for(i = 0; i<cloud.length; i++ ){
+        let row = cloudStartRow; 
+        for(j=0; j<6; j++){
+            let myDiv = gameObject.get(`${cloudStartCol},${row}`);
+            if(cloud[i][j] === 1){
+                myDiv.addDiv.classList.remove('box-sky');
+                myDiv.addDiv.classList.add('box-cloud');
+            }
+            row++;
+        }
+        row = cloudStartRow;
+        cloudStartCol++;
+    }
+}
+
 function setFloor(){
     for(i = 17; i>=15; i-- ){
         for(j=0; j<20; j++){
-            const test = gameObject.get(`${i},${j}`)
+            const myDiv = gameObject.get(`${i},${j}`)
             if(i == 15){
-                test.addDiv.classList.remove('box-sky')
-                test.addDiv.classList.add('box-half-floor')
+                myDiv.addDiv.classList.remove('box-sky')
+                myDiv.addDiv.classList.add('box-half-floor')
             }
             else{
-                test.addDiv.classList.remove('box-sky')
-                test.addDiv.classList.add('box-floor')
+                myDiv.addDiv.classList.remove('box-sky')
+                myDiv.addDiv.classList.add('box-floor')
             }
         }
     }
@@ -63,6 +92,7 @@ function setFloor(){
 
 function setTree(){
     let treeStartCol = 6;
+    const treeRandom = Math.floor(Math.random() * 10)+1;
     const tree = [[0,0,1,1,0,0],
                 [1,1,1,1,1,1],
                 [1,1,1,1,1,1],
@@ -72,19 +102,18 @@ function setTree(){
                 [0,0,0,2,0,0],
                 [0,0,0,2,0,0],
                 [0,0,0,2,0,0]];
-    console.log(tree.length);
     for(i = 0; i<tree.length; i++ ){
-        let treeStartRow = 3;
+        let treeStartRow = treeRandom;
         for(j=0; j<6; j++){
-            let test = gameObject.get(`${treeStartCol},${treeStartRow}`);
+            let myDiv = gameObject.get(`${treeStartCol},${treeStartRow}`);
             
             if(tree[i][j] === 1){
-                test.addDiv.classList.remove('box-sky');
-                test.addDiv.classList.add('box-grass');
+                myDiv.addDiv.classList.remove('box-sky');
+                myDiv.addDiv.classList.add('box-grass');
             }
             else if(tree[i][j] === 2){
-                test.addDiv.classList.remove('box-sky');
-                test.addDiv.classList.add('box-tree');
+                myDiv.addDiv.classList.remove('box-sky');
+                myDiv.addDiv.classList.add('box-tree');
             }
             treeStartRow++;
         }
@@ -95,10 +124,12 @@ function setTree(){
 
 
 setGameBackground();
+setCloud();
+setCloud();
 setFloor();
 setTree();
 
-//const test = gameObject.get('4,5');
+//const myDiv = gameObject.get('4,5');
 
 
 
