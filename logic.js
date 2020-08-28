@@ -30,6 +30,15 @@ function main(){
 const divContainer = document.querySelector('.game-container');
 const gameObject = new Map();
 
+//logic element and tools
+const minecraftTools ={
+    axe:['box-tree','box-grass'],
+    pickaxe:['box-rock'],
+    shovel:['box-floor','box-half-floor'],
+}
+
+
+
 //future option - random 
 const gameWidth = 40;
 const gameHight = 90;
@@ -144,8 +153,8 @@ setCloud();
 setCloud();
 setFloor();
 setTree();
-setRock();
 setBush();
+setRock();
 
 
 
@@ -153,7 +162,7 @@ setBush();
 const myTools = document.querySelector('.weapon-options');
 const toolMap = new Map();
 let currentTool;
-let currentElement;
+let currentElement = [];
 
 function createTool(name,picture){
     const myDivTool = document.createElement('div');
@@ -165,11 +174,39 @@ function createTool(name,picture){
 }
 
 
+
 createTool('axe','axe.png');
 createTool('pickaxe','pickaxe.png');
 createTool('shovel','shovel.png');
-//add event listeners
 
+
+
+//current element box
+let currentElementDiv = document.createElement('div');
+currentElementDiv.classList.add('current-box');
+currentElementDiv.classList.add('current-element-border')
+myTools.insertAdjacentElement("beforeend",currentElementDiv);
+
+
+function updateCurrentElement(currentElement){
+    let classArr = currentElementDiv.className.split(' ')
+    let lastValue = classArr[classArr.length -1]
+    console.log(classArr, lastValue)
+    if(currentElement.length >= 1 && currentElementDiv.classList.length > 2){
+        currentElementDiv.classList.remove(`${lastValue}`);
+        currentElementDiv.classList.add(`${currentElement[currentElement.length-1]}`);
+        
+        
+    }
+    else if(currentElement.length >= 1 &&  currentElementDiv.classList.length === 2){
+        currentElementDiv.classList.add(`${currentElement[currentElement.length-1]}`);
+    }
+    else if(currentElement.length === 0 &&  currentElementDiv.classList.length === 3){
+        currentElementDiv.classList.remove(`${lastValue}`);
+    }
+}
+
+//picktool and change the color
 function pickTool(element){
     const toolEvent = document.querySelectorAll('.weapon-border');
     for(i=0; i<toolEvent.length;i++){
@@ -179,13 +216,65 @@ function pickTool(element){
     currentTool=element;
 }
 
-
+//add event listeners
 const toolEvent = document.querySelectorAll('.weapon-border');
 for(i=0; i<toolEvent.length;i++){
     toolEvent[i].addEventListener('click',pickTool);
 }
 
+function addEventElement(element){
+    event.stopPropagation();
+    //if no tool selected and no picking the current element 
+    if(currentTool && currentTool.target.alt){
+        const myTool = currentTool.target.alt;
+        let canUse = minecraftTools[myTool].some(function(classElement){
+            return classElement === element.currentTarget.classList[element.currentTarget.classList.length -1];
+        })
+       if(canUse){
+            currentElement.push(`${element.currentTarget.classList[element.currentTarget.classList.length -1]}`);
+            updateCurrentElement(currentElement);
+            element.currentTarget.classList.remove(`${element.currentTarget.classList[element.currentTarget.classList.length -1]}`);
+            //only box 
+            if(element.currentTarget.classList.length <= 1){
+                element.currentTarget.classList.add('box-sky')
+            }
+       }
+       else{
+            currentTool.target.classList.add('blue')
+            setTimeout(function(){
+                currentTool.target.classList.remove('blue')},500)
+       }
+       return;
+    }
+    //without tool/ only to place a element
+    else if(currentTool){
+        if((element.currentTarget.classList.contains('box-sky') || element.currentTarget.classList.contains('box-cloud')) && (element.currentTarget.classList.length === 2 )&& (currentElement.length >= 1)){
+            element.currentTarget.classList.add(currentElement.pop());
+            element.currentTarget.classList.remove('box-sky');
+            element.currentTarget.classList.remove('box-cloud');
+            updateCurrentElement(currentElement);
+            
+        }
+    }
+}
+
+//add event listener to the game div
+const boxEvent = document.querySelectorAll('.box');
+for(i=0; i<boxEvent.length;i++){
+    boxEvent[i].addEventListener('click', addEventElement);
+
+}
+
+//place the elements 
+function placeElement(element){
+    //remove the mark
+    const toolEvent = document.querySelectorAll('.weapon-border');
+    for(i=0; i<toolEvent.length;i++){
+        toolEvent[i].classList.remove('current-tool');
+    }
+    currentTool = element;
 
 
+}
 
-
+currentElementDiv.addEventListener('click',placeElement);

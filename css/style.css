@@ -51,6 +51,19 @@ div{
     display: inline-block;
 }
 
+.current-box{
+    width: 2vw;
+    height: 5vh;
+    display: inline-block;
+}
+
+.box:hover{
+    border: 0.5px dotted black;
+}
+
+.box-cloud{
+    background-color: white;
+}
 .box-sky{
     background-color:lightblue;
 }
@@ -64,22 +77,18 @@ div{
     background: url(/imgs/half-land.png)no-repeat center center/cover;
 }
 
-.box-grass{
-    background: url(/imgs/tree.png)no-repeat center center/cover;
-}
 .box-tree{
     background: url(/imgs/tree-1.png)no-repeat center center/cover;
+}
+
+.box-grass{
+    background: url(/imgs/tree.png)no-repeat center center/cover;
 }
 .box-rock{
     background: url(/imgs/rock.png)no-repeat center center/cover;
 }
 
-.box-cloud{
-    background-color: white;
-}
-.box:hover{
-    border: 1px dotted black;
-}
+
 
 /* main */
 main{
@@ -115,13 +124,23 @@ main{
     height: 100px;
 }
 
+.current-element-border{
+    margin: 5px;
+    border: white 2px solid;
+    width: 2vw;
+    height: 5vh;
+}
+
 .weapon-border:hover,
 .weapon-border:active,
 .current-tool{
     background-color: tomato;
 }
-
+.blue{
+    background-color: blue;
+}
 .tool-pic{
-    width: 90%;
+    width: 100%;
+    height: 100%;
 }
 
