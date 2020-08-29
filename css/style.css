@@ -97,7 +97,7 @@ main{
     height: 100vh;
 }
 .game{
-    background-color: tomato;
+    background-color: rgb(170, 170, 170);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -120,21 +120,19 @@ main{
 .weapon-border{
     margin: 5px;
     border: white 2px solid;
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
 }
 
 .current-element-border{
     margin: 5px;
     border: white 2px solid;
-    width: 2vw;
-    height: 5vh;
 }
 
 .weapon-border:hover,
 .weapon-border:active,
 .current-tool{
-    background-color: tomato;
+    background-color: #ffff;
 }
 .blue{
     background-color: blue;
