@@ -7,27 +7,57 @@ function main(){
 
     const minecraftdiv = document.createElement('div');
     minecraftdiv.innerHTML = `<img src="/imgs/logo.png" alt="">`
-    minecraftdiv.style.marginBottom = "20vh"
+    minecraftdiv.style.marginBottom = "10vh"
 
-    const gameinfo = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, eveniet voluptatibus, odio voluptate illo ad expedita minima nostrum corrupti ducimus fugiat culpa adipisci dignissimos! Odio, voluptate! Nulla officia provident laudantium tempora debitis adipisci illum natus, ex quasi nihil vitae iusto doloremque vero velit assumenda non! Pariatur numquam consequatur sit reiciendis!`;
+    const gameinfo =  document.createElement('div');
+    gameinfo.classList.add('game-info-style')
+    gameinfo.innerHTML = `<h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, eveniet voluptatibus, odio voluptate illo ad expedita minima nostrum corrupti ducimus fugiat culpa adipisci dignissimos! Odio, voluptate! Nulla officia provident laudantium tempora debitis adipisci illum natus, ex quasi nihil vitae iusto doloremque vero velit assumenda non! Pariatur numquam consequatur sit reiciendis!</h1>`;
+    
 
-    const startGameBtn = document.createElement('div');
-    startGameBtn.innerHTML = `<button class="btn">Start now</button>`
 
-    const node = document.createTextNode(gameinfo);
+    let foramResize = document.createElement('div');
+    let form = document.createElement('form');
+
+    form.innerHTML = `<form name="myForm">
+    <input type="text" name="width" placeholder="width">
+    <br>
+    <input type="text" name="tree" placeholder="number of tress">
+    <input type="text" name="rock" placeholder="number of rocks">
+    <input type="text" name="cloud" placeholder="number of clouds">
+    <input type="text" name="bush" placeholder="number of bushes">
+    <input class="btn" type="submit" value="reset/resize">
+    </form>`
+
+    form.classList.add('form-style')
+
+    foramResize.appendChild(form)
+   
     minecraftStat.appendChild(minecraftdiv);
-    minecraftStat.appendChild(node);
-    minecraftStat.appendChild(startGameBtn);
+    minecraftStat.appendChild(gameinfo);
+    minecraftStat.appendChild(form);
     document.body.appendChild(minecraftStat);
 
-    startGameBtn.addEventListener('click',function(){
-    minecraftStat.remove();
+    form.addEventListener('submit',function(){
+        event.preventDefault();
+        let resizeValue = event.currentTarget.width.value 
+        if(event.currentTarget.width.value > 40){
+            startGame(resizeValue,true);
+            
+        }
+        else{
+            startGame(40,false);
+        }
+        minecraftStat.remove();
     })
+
+
 }
+    
 
-//main();
 
-const divContainer = document.querySelector('.game-container');
+main();
+
+
 const gameObject = new Map();
 
 //logic element and tools
@@ -40,20 +70,21 @@ const minecraftTools ={
 
 
 //future option - random 
-const gameWidth = 40;
+
 const gameHight = 90;
 
-const calcCol = gameHight/5;
-const calcRow = gameWidth/2;
+let calcCol = gameHight/5;
+
 
 const floorRange = 3;
 
-function setGameBackground(){
+function setGameBackground(divContainer,gameWidth){
     //every div is 2vw 5vh.
+    divContainer.style.width = `${gameWidth}vw`;
     const gameMatrix = [];
     for(i = 0;i<calcCol;i++){
         gameMatrix[i] = [];
-        for(j=0; j<calcRow; j++){
+        for(j=0; j<gameWidth/2; j++){
             const addDiv = document.createElement('div');
             addDiv.classList.add("box");
             addDiv.classList.add("box-sky");
@@ -65,11 +96,11 @@ function setGameBackground(){
 
 
 //set floor 3 blocks
-function setFloor(){
-    for(i = 17; i>=15; i-- ){
-        for(j=0; j<20; j++){
+function setFloor(divContainer,calcRow){
+    for(i = calcCol-1; i>=calcCol-3; i-- ){
+        for(j=0; j< calcRow/2; j++){
             const myDiv = gameObject.get(`${i},${j}`)
-            if(i == 15){
+            if(i == calcCol-3){
                 myDiv.addDiv.classList.remove('box-sky')
                 myDiv.addDiv.classList.add('box-half-floor')
             }
@@ -148,13 +179,22 @@ function setElement(startCol,startRow,arr,elementClass,elementClass2){
     }
 }
 
-setGameBackground();
-setCloud();
-setCloud();
-setFloor();
-setTree();
-setBush();
-setRock();
+function startGame(calcRow,moveleft){
+    const divContainer = document.querySelector('.game-container');
+    if(moveleft){
+        divContainer.style.left = 0;
+    }
+    setGameBackground(divContainer,calcRow);
+    setCloud();
+    setCloud();
+    setFloor(divContainer,calcRow);
+    setTree();
+    setBush();
+    setRock();
+}
+
+
+
 
 
 
@@ -191,7 +231,6 @@ myTools.insertAdjacentElement("beforeend",currentElementDiv);
 function updateCurrentElement(currentElement){
     let classArr = currentElementDiv.className.split(' ')
     let lastValue = classArr[classArr.length -1]
-    console.log(classArr, lastValue)
     if(currentElement.length >= 1 && currentElementDiv.classList.length > 2){
         currentElementDiv.classList.remove(`${lastValue}`);
         currentElementDiv.classList.add(`${currentElement[currentElement.length-1]}`);
@@ -276,5 +315,6 @@ function placeElement(element){
 
 
 }
-
 currentElementDiv.addEventListener('click',placeElement);
+
+
