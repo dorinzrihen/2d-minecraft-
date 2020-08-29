@@ -11,7 +11,8 @@ function main(){
 
     const gameinfo =  document.createElement('div');
     gameinfo.classList.add('game-info-style')
-    gameinfo.innerHTML = `<h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, eveniet voluptatibus, odio voluptate illo ad expedita minima nostrum corrupti ducimus fugiat culpa adipisci dignissimos! Odio, voluptate! Nulla officia provident laudantium tempora debitis adipisci illum natus, ex quasi nihil vitae iusto doloremque vero velit assumenda non! Pariatur numquam consequatur sit reiciendis!</h1>`;
+    gameinfo.innerHTML = `<h1>המשחק של מיינקראפט, ניתן להתחיל לשחק גם מבלי למלא את ההגדרות.
+     ניתן להוסיף מספר עצים, שיחים, עננים, אבנים ועוד וכעוד ליצירת העולם שחלמתם עליו. </h1>`;
     
 
 
@@ -41,11 +42,15 @@ function main(){
         event.preventDefault();
         let resizeValue = event.currentTarget.width.value 
         if(event.currentTarget.width.value > 40){
-            startGame(resizeValue,true);
+            let numOfTree = Number(event.currentTarget.tree.value);
+            let numOfRock = Number(event.currentTarget.rock.value);
+            let numOfCloud = Number(event.currentTarget.cloud.value);
+            let numOfBush= Number(event.currentTarget.bush.value);
+            startGame(resizeValue,true,numOfTree,numOfRock,numOfCloud,numOfBush);
             
         }
         else{
-            startGame(40,false);
+            startGame(40,false,1,1,2,1);
         }
         minecraftStat.remove();
     })
@@ -56,7 +61,6 @@ function main(){
 
 
 main();
-
 
 const gameObject = new Map();
 
@@ -113,20 +117,19 @@ function setFloor(divContainer,calcRow){
 }
 
 //set cloud to the game
-function setCloud(){
-    let cloudStartCol = Math.floor(Math.random() * 10)+1; 
-    let cloudStartRow = Math.floor(Math.random() * 10)+1; 
+function setCloud(calcRow){
     const cloud = [[0,0,1,1,0,0],
                 [1,1,1,1,1,1],
                 [0,0,0,1,1,1],
                 [0,0,0,0,0,0]];
+
+    let cloudStartCol = Math.floor(Math.random() * 10)+1; 
+    let cloudStartRow = Math.floor(Math.random() * ((calcRow/2)-cloud[0].length)); 
     setElement(cloudStartCol,cloudStartRow,cloud,'box-cloud');
 }
 
 //set tree with random row
-function setTree(){
-    let treeStartCol = 6;
-    const treeRandom = Math.floor(Math.random() * 10)+1;
+function setTree(calcRow){
     const tree = [[0,0,1,1,0,0],
                 [1,1,1,1,1,1],
                 [1,1,1,1,1,1],
@@ -136,37 +139,41 @@ function setTree(){
                 [0,0,0,2,0,0],
                 [0,0,0,2,0,0],
                 [0,0,0,2,0,0]];
+                let treeStartCol = 6;
+                const treeRandom = Math.floor(Math.random() * (calcRow/2)-tree[0].length-6)+6;
     setElement(treeStartCol,treeRandom,tree,'box-grass','box-tree');
 }
 
 
 //set rock
-function setRock(){
-    let rockStartCol = calcCol - 6;
-    let rockStartRow = Math.floor(Math.random() * 10)+1; 
+function setRock(calcRow){
     const rock = [[1,1],[1,1],[1,1]]
+    let rockStartCol = calcCol - 6;
+    let rockStartRow = Math.floor(Math.random() * (calcRow/2)-rock[0].length-3)+3; 
     setElement(rockStartCol,rockStartRow,rock,'box-rock');
 }
 
 
-function setBush(){
-    let bushStartCol = calcCol - 5;
-    let bushStartRow = Math.floor(Math.random() * 10)+1; 
+function setBush(calcRow){
     const bush = [[1,1,1],[1,1,1]];
+    let bushStartCol = calcCol - 5;
+    let bushStartRow = Math.floor(Math.random() * (calcRow/2)-bush[0].length-3)+3; 
     setElement(bushStartCol,bushStartRow,bush,'box-grass');
 }
 
 function setElement(startCol,startRow,arr,elementClass,elementClass2){
-    let startColNum = startCol;
-    let startRowNum = startRow;
-
+    debugger;
+    let startColNum = Number(startCol);
+    let startRowNum = Number(startRow);
     for(i = 0; i< arr.length; i++ ){
-        let row = startRowNum; 
+        let row = Number(startRowNum); 
         for(j=0; j< arr[0].length; j++){
             let myDiv = gameObject.get(`${startColNum},${row}`);
             if(arr[i][j] === 1){
-                myDiv.addDiv.classList.remove('box-sky');
-                myDiv.addDiv.classList.add(elementClass);
+                if(myDiv){
+                    myDiv.addDiv.classList.remove('box-sky');
+                    myDiv.addDiv.classList.add(elementClass);
+                }
             }
             else if(arr[i][j] === 2){
                 myDiv.addDiv.classList.remove('box-sky');
@@ -174,23 +181,31 @@ function setElement(startCol,startRow,arr,elementClass,elementClass2){
             }
             row++;
         }
-        row = startRowNum;
+        row = Number(startRowNum); 
         startColNum++;
     }
+    row = 0;
+    startRowNum = 0;
 }
 
-function startGame(calcRow,moveleft){
+
+function repeatElement(func, times,calcRow) {
+    func(calcRow);
+    times && --times && repeatElement(func, times,calcRow);
+}
+
+function startGame(calcRow,moveleft,numOfTree,numOfRock,numOfCloud,numOfBush){
     const divContainer = document.querySelector('.game-container');
     if(moveleft){
         divContainer.style.left = 0;
     }
     setGameBackground(divContainer,calcRow);
-    setCloud();
-    setCloud();
     setFloor(divContainer,calcRow);
-    setTree();
-    setBush();
-    setRock();
+    //set element
+    repeatElement(setCloud,numOfCloud,calcRow);
+    repeatElement(setTree,numOfTree,calcRow);
+    repeatElement(setBush,numOfBush,calcRow);
+    repeatElement(setRock,numOfRock,calcRow);
 }
 
 
