@@ -162,7 +162,6 @@ function setBush(calcRow){
 }
 
 function setElement(startCol,startRow,arr,elementClass,elementClass2){
-    debugger;
     let startColNum = Number(startCol);
     let startRowNum = Number(startRow);
     for(i = 0; i< arr.length; i++ ){
@@ -176,8 +175,10 @@ function setElement(startCol,startRow,arr,elementClass,elementClass2){
                 }
             }
             else if(arr[i][j] === 2){
-                myDiv.addDiv.classList.remove('box-sky');
-                myDiv.addDiv.classList.add(elementClass2);
+                if(myDiv){
+                    myDiv.addDiv.classList.remove('box-sky');
+                    myDiv.addDiv.classList.add(elementClass2);
+                }
             }
             row++;
         }
@@ -206,6 +207,12 @@ function startGame(calcRow,moveleft,numOfTree,numOfRock,numOfCloud,numOfBush){
     repeatElement(setTree,numOfTree,calcRow);
     repeatElement(setBush,numOfBush,calcRow);
     repeatElement(setRock,numOfRock,calcRow);
+    //add event listener to the game div
+    const boxEvent = document.querySelectorAll('.box');
+    for(i=0; i<boxEvent.length;i++){
+        boxEvent[i].addEventListener('click', addEventElement);
+
+    }
 }
 
 
@@ -277,6 +284,7 @@ for(i=0; i<toolEvent.length;i++){
 }
 
 function addEventElement(element){
+    debugger;
     event.stopPropagation();
     //if no tool selected and no picking the current element 
     if(currentTool && currentTool.target.alt){
@@ -312,12 +320,7 @@ function addEventElement(element){
     }
 }
 
-//add event listener to the game div
-const boxEvent = document.querySelectorAll('.box');
-for(i=0; i<boxEvent.length;i++){
-    boxEvent[i].addEventListener('click', addEventElement);
 
-}
 
 //place the elements 
 function placeElement(element){
