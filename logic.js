@@ -282,7 +282,6 @@ for(i=0; i<toolEvent.length;i++){
 }
 
 function addEventElement(element){
-    debugger;
     event.stopPropagation();
     //if no tool selected and no picking the current element 
     if(currentTool && currentTool.target.alt){
