@@ -185,8 +185,6 @@ function setElement(startCol,startRow,arr,elementClass,elementClass2){
         row = Number(startRowNum); 
         startColNum++;
     }
-    row = 0;
-    startRowNum = 0;
 }
 
 
